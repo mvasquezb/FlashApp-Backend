@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Pet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use App\Helpers\S3Helper;
 
 class PetController extends Controller
 {
@@ -14,7 +16,34 @@ class PetController extends Controller
      */
     public function index()
     {
-        //
+        return $this->uploadFileTest();
+    }
+
+    private function uploadFileTest() {
+        $my_file = 'files2.txt';
+        $filename = $this->createTestFile($my_file);
+        $disk = Storage::disk('s3');
+        $added = $this->uploadTestFileToDisk($disk, $filename);
+        if ($added) {
+            // return $disk->temporaryUrl($filename, now()->addYears(1));
+            return S3Helper::getFileUrl($disk->url($filename));
+        }
+        return "File not added";
+    }
+
+    private function uploadTestFileToDisk($disk, $my_file) {
+        $handle = fopen($my_file, 'r') or die('Cannot open file:  ' . $my_file);
+        $added = $disk->put($my_file, $handle, 'public');
+        fclose($handle);
+        return $added;
+    }
+
+    private function createTestFile($my_file) {
+        $handle = fopen($my_file, 'w') or die('Cannot open file:  ' . $my_file);
+        $data = 'Test data to see if this works!';
+        fwrite($handle, $data);
+        fclose($handle);
+        return $my_file;
     }
 
     /**
