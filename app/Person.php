@@ -15,4 +15,9 @@ class Person extends Model
     {
         return $this->hasOne('App\User');
     }
+
+    public function scheduledServices()
+    {
+        return $this->hasMany('App\ScheduledServices');
+    }
 }
