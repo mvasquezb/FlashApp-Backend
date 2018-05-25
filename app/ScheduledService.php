@@ -21,4 +21,9 @@ class ScheduledService extends Model
         // TODO: Check if it has only one schedule or multiple
         return $this->hasOne('App\Schedule');
     }
+
+    public function serviceInstances()
+    {
+        return $this->hasMany('App\Service');
+    }
 }
