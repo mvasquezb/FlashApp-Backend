@@ -20,4 +20,11 @@ class Person extends Model
     {
         return $this->hasMany('App\ScheduledServices');
     }
+
+    public function services()
+    {
+        return $this->hasManyThrough('App\Service', 'App\ServiceCustomer');
+    }
+
+    // TODO: Add seller and customer ratings getters
 }

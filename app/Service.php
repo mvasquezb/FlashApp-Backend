@@ -15,4 +15,14 @@ class Service extends Model
     {
         return $this->belongsTo('App\ScheduledService');
     }
+
+    public function customers()
+    {
+        return $this->hasManyThrough('App\Person', 'App\ServiceCustomers');
+    }
+
+    public function serviceCustomers()
+    {
+        return $this->hasMany('App\ServiceCustomers');
+    }
 }
