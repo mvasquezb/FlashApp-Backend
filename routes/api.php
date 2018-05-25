@@ -22,3 +22,4 @@ Route::resource('pets', 'PetController');
 Route::resource('people', 'PersonController');
 Route::resource('service-types', 'ServiceTypeController');
 Route::resource('scheduled-services', 'ScheduledServices');
+Route::resource('schedules', 'ScheduleController');
