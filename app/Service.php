@@ -13,6 +13,6 @@ class Service extends Model
 
     public function scheduledService()
     {
-        return $this->belongsToOne('App\ScheduledService');
+        return $this->belongsTo('App\ScheduledService');
     }
 }

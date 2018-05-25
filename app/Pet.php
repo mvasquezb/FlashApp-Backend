@@ -8,7 +8,7 @@ class Pet extends Model
 {
     public function owner()
     {
-        return $this->belongsToOne('App\Person');
+        return $this->belongsTo('App\Person');
     }
 
     public function animalType()
