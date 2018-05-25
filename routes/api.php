@@ -24,3 +24,4 @@ Route::resource('service-types', 'ServiceTypeController');
 Route::resource('scheduled-services', 'ScheduledServices');
 Route::resource('schedules', 'ScheduleController');
 Route::resource('service-requests', 'ServiceRequestController');
+Route::resource('service-status', 'ServiceStatusController');
