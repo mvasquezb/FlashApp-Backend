@@ -18,3 +18,4 @@ use Illuminate\Http\Request;
 // });
 
 Route::resource('animal-types', 'AnimalTypeController');
+Route::resource('pets', 'PetController');
