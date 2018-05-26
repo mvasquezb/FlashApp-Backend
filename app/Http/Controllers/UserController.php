@@ -26,6 +26,7 @@ class UserController extends Controller
                 "message" => "Malformed request",
             ]);
         }
+
         $response = null;
         $payload = $request->payload;
         if (!$payload) {
