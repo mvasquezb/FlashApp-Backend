@@ -14,6 +14,11 @@ class PetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function lista_mascotas($disk)
+    {
+        
+    } 
+
     public function index()
     {
         return $this->uploadFileTest();
