@@ -19,6 +19,10 @@ class PetController extends Controller
         return $mascotas;
     }
 
+    public function addPet(Request $request){
+
+    }
+
     public function index()
     {
         return $this->uploadFileTest();
@@ -70,6 +74,15 @@ class PetController extends Controller
     public function store(Request $request)
     {
         //
+        $pet = new Pet();
+        $pet->name = $request['username'];
+        $pet->gender = $request['sexo'];
+        $pet->breed = $request['breed'];
+        $pet->id = $request['id']s;
+
+        // add other fields
+        $pet->save();
+
     }
 
     /**
