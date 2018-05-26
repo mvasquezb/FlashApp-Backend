@@ -24,8 +24,6 @@ class CreateUsersTable extends Migration
             $table->string('pictureUrl', 200);
             $table->float('sellerRating')->nullable();
             $table->float('customerRating')->nullable();
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();
