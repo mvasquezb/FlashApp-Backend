@@ -14,6 +14,11 @@ class PetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function getMascotas($userid){
+        $mascotas = Pet::where('user_id',$userid);
+        return $mascotas;
+    }
+
     public function index()
     {
         return $this->uploadFileTest();

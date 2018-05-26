@@ -19,7 +19,8 @@ use Illuminate\Http\Request;
 
 Route::resource('animal-types', 'AnimalTypeController');
 Route::resource('pets', 'PetController');
-Route::resource('people', 'PersonController');
+Route::get('users/{userid}/pets', 'PetController@getMascotas')
+Route::resource('user', 'UserController');
 Route::resource('service-types', 'ServiceTypeController');
 Route::resource('scheduled-services', 'ScheduledServices');
 Route::resource('schedules', 'ScheduleController');
