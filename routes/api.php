@@ -17,6 +17,8 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
+Route::post('login', 'UserController@login');
+
 Route::resource('animal-types', 'AnimalTypeController');
 Route::resource('pets', 'PetController');
 Route::get('users/{userid}/pets', 'PetController@getMascotas');

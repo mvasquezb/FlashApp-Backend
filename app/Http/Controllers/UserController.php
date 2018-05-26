@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\User;
 
 class UserController extends Controller
 {
@@ -13,7 +15,96 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        return User::all();
+    }
+
+    public function login(Request $request) {
+        $method = $request->method;
+        if (!$method) {
+            return response()->json([
+                "code" => 400,
+                "message" => "Malformed request",
+            ]);
+        }
+        $response = null;
+        $payload = $request->payload;
+        if (!$payload) {
+            return response()->json([
+                "code" => 400,
+                "message" => "Malformed request",
+            ]);
+        }
+        switch ($method) {
+            case "email": {
+                $response = $this->handleEmailLogin($payload);
+                break;
+            }
+            case "google": {
+                $response = $this->handleGoogleLogin($payload);
+                break;
+            }
+            case "fb": {
+                $response = $this->handleFbLogin($payload);
+                break;
+            }
+            default: {
+                $response = reponse()->json([
+                    "code" => 400,
+                    "message" => "Login method not recognized",
+                ]);
+            }
+        }
+        return $response;
+    }
+
+    private function handleEmailLogin($payload)
+    {
+        $email = $payload['email'];
+        $password = $payload['password'];
+
+        $user = User::where('email', $email)
+                ->where('password', Hash::make($password))->get();
+
+        if (!$user) {
+            return response()->json([
+                'code' => 401,
+                'message' => 'Unauthorized user'
+            ]);
+        }
+        return response()->json([
+            'code' => 200,
+            'user' => $user
+        ]);
+    }
+
+    private function handleGoogleLogin($payload)
+    {
+        $user = User::where('googleToken', $payload['token'])->get();
+        if (!$user) {
+            return response()->json([
+                'code' => 401,
+                'message' => 'Unauthorized user'
+            ]);
+        }
+        return response()->json([
+            'code' => 200,
+            'user' => $user
+        ]);
+    }
+
+    private function handleFbLogin($payload)
+    {
+        $user = User::where('fbToken', $payload['token'])->get();
+        if (!$user) {
+            return response()->json([
+                'code' => 401,
+                'message' => 'Unauthorized user'
+            ]);
+        }
+        return response()->json([
+            'code' => 200,
+            'user' => $user
+        ]);
     }
 
     /**
