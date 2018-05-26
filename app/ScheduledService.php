@@ -8,7 +8,7 @@ class ScheduledService extends Model
 {
     public function seller()
     {
-        return $this->hasOne('App\Person');
+        return $this->hasOne('App\User');
     }
 
     public function serviceType()

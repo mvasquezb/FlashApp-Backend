@@ -17,7 +17,7 @@ class CreateScheduledServicesTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->integer('seller_id')->unsigned();
-            $table->foreign('seller_id')->references('id')->on('people');
+            $table->foreign('seller_id')->references('id')->on('users');
             $table->integer('type_id')->unsigned();
             $table->foreign('type_id')->references('id')->on('service_types');
             $table->dateTime('start_time');

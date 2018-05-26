@@ -14,6 +14,15 @@ class PetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function getMascotas($userid){
+        $mascotas = Pet::where('user_id',$userid);
+        return $mascotas;
+    }
+
+    public function addPet(Request $request){
+
+    }
+
     public function index()
     {
         return $this->uploadFileTest();
@@ -65,6 +74,15 @@ class PetController extends Controller
     public function store(Request $request)
     {
         //
+        $pet = new Pet();
+        $pet->name = $request['username'];
+        $pet->gender = $request['sexo'];
+        $pet->breed = $request['breed'];
+        $pet->id = $request['id'];
+
+        // add other fields
+        $pet->save();
+
     }
 
     /**
