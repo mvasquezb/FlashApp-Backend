@@ -7,6 +7,22 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+
+    public function pets()
+    {
+        return $this->hasMany('App\Pet');
+    }
+
+    public function scheduledServices()
+    {
+        return $this->hasMany('App\ScheduledServices');
+    }
+
+    public function services()
+    {
+        return $this->hasManyThrough('App\Service', 'App\ServiceCustomer');
+    }
+
     use Notifiable;
 
     /**
