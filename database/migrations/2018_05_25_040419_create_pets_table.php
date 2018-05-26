@@ -22,6 +22,8 @@ class CreatePetsTable extends Migration
             $table->string('gender', 10);
             $table->integer('animal_type_id')->unsigned();
             $table->foreign('animal_type_id')->references('id')->on('animal_types');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

@@ -17,7 +17,7 @@ class CreateServiceCustomersTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->integer('customer_id')->unsigned();
-            $table->foreign('customer_id')->references('id')->on('people');
+            $table->foreign('customer_id')->references('id')->on('users');
             $table->integer('service_id')->unsigned();
             $table->foreign('service_id')->references('id')->on('services');
             $table->float('sellerRating')->nullable();
