@@ -15,8 +15,10 @@ class PetController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getMascotas($userid){
+
         $mascotas = Pet::where('user_id',$userid);
         return $mascotas;
+        
     }
 
     public function addPet(Request $request){
@@ -74,14 +76,22 @@ class PetController extends Controller
     public function store(Request $request)
     {
         //
+
+
         $pet = new Pet();
-        $pet->name = $request['username'];
-        $pet->gender = $request['sexo'];
+        $pet->name = $request['name'];
+        $pet->gender = $request['gender'];
         $pet->breed = $request['breed'];
-        $pet->id = $request['id'];
+        $pet->animal_type_id = $request['animal_type_id'];
+        $pet->user_id = $request['user_id'];
+        //$pet->pictureUrl = 
 
         // add other fields
         $pet->save();
+        return response()->json([
+            'code' => 200,
+            'message' => 'mascota registrada'
+        ]);
 
     }
 

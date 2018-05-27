@@ -126,7 +126,36 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // retgistro normal 
+        $email = User::where('email', $request['email'])->get();
+
+        if (!$email) {
+            $user = new User();
+            $user->firstName = $request->firstName;
+            $user->lastName = $request->lastName;
+            $user->birthday = $request->birthday;
+            $user->address = $request->address;
+            $user->sellerDescription = $request->sellerDescription;
+            //$user->pictureUrl;
+            //$user->sellerRating = 0;
+            //$user->customerRating = 0;
+            $user->email = $request->email;
+            //password debe ser con hash
+            $user->password = Hash::make($request->password);
+            //$user->rememberToken();
+            $user->save();
+            return response()->json([
+                'code' => 200,
+                'message' => 'user registrado'
+            ]);
+        }
+        return response()->json([
+            'code' => 401,
+            'user' => 'ya existe una cuenta con ese correo'
+        ]);
+
+        
+
     }
 
     /**
