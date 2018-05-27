@@ -18,7 +18,7 @@ class PetController extends Controller
 
         $mascotas = Pet::where('user_id',$userid);
         return $mascotas;
-        
+
     }
 
     public function addPet(Request $request){
@@ -76,8 +76,7 @@ class PetController extends Controller
     public function store(Request $request)
     {
         //
-
-
+        
         $pet = new Pet();
         $pet->name = $request['name'];
         $pet->gender = $request['gender'];
@@ -92,7 +91,7 @@ class PetController extends Controller
             'code' => 200,
             'message' => 'mascota registrada'
         ]);
-
+        
     }
 
     /**

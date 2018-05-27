@@ -15,7 +15,7 @@ class AddPetOwner extends Migration
     {
         Schema::table('pets', function (Blueprint $table) {
             $table->integer('owner_id')->unsigned();
-            $table->foreign('owner_id')->references('id')->on('people')->onDelete('cascade');
+            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

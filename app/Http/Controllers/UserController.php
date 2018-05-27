@@ -127,16 +127,17 @@ class UserController extends Controller
     public function store(Request $request)
     {
         // retgistro normal 
+        
         $email = User::where('email', $request['email'])->get();
-
-        if (!$email) {
+        //return count($email);
+        if (!count($email)) {
             $user = new User();
             $user->firstName = $request->firstName;
             $user->lastName = $request->lastName;
             $user->birthday = $request->birthday;
             $user->address = $request->address;
-            $user->sellerDescription = $request->sellerDescription;
-            //$user->pictureUrl;
+            //$user->sellerDescription = $request->sellerDescription;
+            $user->pictureUrl = 'http://200.16.7.152/img/Usuarios/flashapp.jpg';
             //$user->sellerRating = 0;
             //$user->customerRating = 0;
             $user->email = $request->email;
@@ -149,6 +150,7 @@ class UserController extends Controller
                 'message' => 'user registrado'
             ]);
         }
+        
         return response()->json([
             'code' => 401,
             'user' => 'ya existe una cuenta con ese correo'
