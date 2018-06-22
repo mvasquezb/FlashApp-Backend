@@ -129,7 +129,6 @@ class UserController extends Controller
         try
         {
         // retgistro normal 
-        
         $email = User::where('email', $request['email'])->get();
         //return count($email);
         if (!count($email)) {

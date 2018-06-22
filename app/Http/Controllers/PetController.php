@@ -16,7 +16,7 @@ class PetController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getMascotas($userid){
-        $mascotas = Pet::where('user_id',$userid)->get();
+        $mascotas = Pet::where('owner_id',$userid)->get();
         foreach ($mascotas as &$m) {
             $m->animalType;
         }
@@ -142,7 +142,6 @@ class PetController extends Controller
             }
 
             //los 2 son lo same creo
-            $pet->user_id = $request['user_id'];
             $pet->owner_id = $request['user_id'];
 
             // por ahora todos la misma imagen
