@@ -13,6 +13,6 @@ class Pet extends Model
 
     public function animalType()
     {
-        return $this->hasOne('App\AnimalType');
+        return $this->hasOne('App\AnimalType','id','animal_type_id');
     }
 }

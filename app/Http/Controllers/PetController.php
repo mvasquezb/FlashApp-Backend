@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Pet;
+use App\AnimalType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Helpers\S3Helper;
@@ -15,14 +16,56 @@ class PetController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getMascotas($userid){
-
-        $mascotas = Pet::where('user_id',$userid);
-        return $mascotas;
-        
+        $mascotas = Pet::where('user_id',$userid)->get();
+        foreach ($mascotas as &$m) {
+            $m->animalType;
+        }
+        return response()->json([
+                'code' => 200,
+                'message' => 'mascota encontradas',
+                'data' => $mascotas
+            ]);
     }
 
-    public function addPet(Request $request){
+    public function actualizar(Request $request)
+    {
+        $pet = Pet::where('id',$request->id)->first();
+        $pet->name = $request['name'];
+        $pet->gender = $request['gender'];
+        $pet->breed = $request['breed'];
+        $animal_type_id = AnimalType::where('description',$request->tipo)->first();
+        
+        if ($animal_type_id)
+        {
+            // si el tipo ya exite
+            $pet->animal_type_id = $animal_type_id->id;
+        }
+        else 
+        {
+            // si el tipo no exite
+            $type = new AnimalType();
+            $type->description = $request->tipo;
+            $type->save();
+            $pet->animal_type_id = $type->id;
+        }
 
+        // por ahora todos la misma imagen
+        // $pet->pictureUrl = "http://200.16.7.152/img/Usuarios/flashapp.jpg";
+        $pet->save();
+        return response()->json([
+                'code' => 200,
+                'message' => 'mascota actualizada',
+                'data' => $pet
+            ]);
+
+    }
+
+    public function delete($petid){
+        $pet = Pet::where('id',$petid)->delete();
+        return response()->json([
+                'code' => 200,
+                'message' => 'mascotas borrada'
+            ]);
     }
 
     public function index()
@@ -76,23 +119,49 @@ class PetController extends Controller
     public function store(Request $request)
     {
         //
+        try
+        {
+            $pet = new Pet();
+            $pet->name = $request['name'];
+            $pet->gender = $request['gender'];
+            $pet->breed = $request['breed'];
+            $animal_type_id = AnimalType::where('description',$request->tipo)->first();
+            
+            if ($animal_type_id)
+            {
+                // si el tipo ya exite
+                $pet->animal_type_id = $animal_type_id->id;
+            }
+            else 
+            {
+                // si el tipo no exite
+                $type = new AnimalType();
+                $type->description = $request->tipo;
+                $type->save();
+                $pet->animal_type_id = $type->id;
+            }
 
+            //los 2 son lo same creo
+            $pet->user_id = $request['user_id'];
+            $pet->owner_id = $request['user_id'];
 
-        $pet = new Pet();
-        $pet->name = $request['name'];
-        $pet->gender = $request['gender'];
-        $pet->breed = $request['breed'];
-        $pet->animal_type_id = $request['animal_type_id'];
-        $pet->user_id = $request['user_id'];
-        //$pet->pictureUrl = 
-
-        // add other fields
-        $pet->save();
-        return response()->json([
-            'code' => 200,
-            'message' => 'mascota registrada'
-        ]);
-
+            // por ahora todos la misma imagen
+            $pet->pictureUrl = "http://200.16.7.152/img/Usuarios/flashapp.jpg";
+            $pet->save();
+            return response()->json([
+                'code' => 200,
+                'message' => 'mascota registrada',
+                'data' => $pet
+            ]);
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['code' => 500,
+                'message'=> 'Hubo un error',
+                'data' => $e->getMessage()
+            ]);
+        }
+        
     }
 
     /**
