@@ -17,6 +17,8 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
+Route::group(['middleware' => 'cors'], function () {
+
 Route::post('login', 'UserController@login');
 
 Route::resource('animal-types', 'AnimalTypeController');
@@ -30,3 +32,5 @@ Route::resource('service-requests', 'ServiceRequestController');
 Route::resource('service-status', 'ServiceStatusController');
 Route::resource('services', 'ServiceController');
 Route::resource('service-customers', 'ServiceCustomerController');
+
+});
