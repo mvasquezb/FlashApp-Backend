@@ -126,6 +126,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        try
+        {
         // retgistro normal 
         
         $email = User::where('email', $request['email'])->get();
@@ -155,9 +157,14 @@ class UserController extends Controller
             'code' => 401,
             'user' => 'ya existe una cuenta con ese correo'
         ]);
-
-        
-
+        }
+        catch(\Exception $e)
+        {
+            return response()->json(['code' => 500,
+                'message'=> 'Hubo un error',
+                'data' => $e->getMessage()
+            ]);
+        }
     }
 
     /**
