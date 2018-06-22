@@ -22,13 +22,50 @@ class PetController extends Controller
         }
         return response()->json([
                 'code' => 200,
-                'message' => 'mascotas encontradas',
+                'message' => 'mascota encontradas',
                 'data' => $mascotas
             ]);
     }
 
-    public function addPet(Request $request){
+    public function actualizar(Request $request)
+    {
+        $pet = Pet::where('id',$request->id)->first();
+        $pet->name = $request['name'];
+        $pet->gender = $request['gender'];
+        $pet->breed = $request['breed'];
+        $animal_type_id = AnimalType::where('description',$request->tipo)->first();
+        
+        if ($animal_type_id)
+        {
+            // si el tipo ya exite
+            $pet->animal_type_id = $animal_type_id->id;
+        }
+        else 
+        {
+            // si el tipo no exite
+            $type = new AnimalType();
+            $type->description = $request->tipo;
+            $type->save();
+            $pet->animal_type_id = $type->id;
+        }
 
+        // por ahora todos la misma imagen
+        // $pet->pictureUrl = "http://200.16.7.152/img/Usuarios/flashapp.jpg";
+        $pet->save();
+        return response()->json([
+                'code' => 200,
+                'message' => 'mascota actualizada',
+                'data' => $pet
+            ]);
+
+    }
+
+    public function delete($petid){
+        $pet = Pet::where('id',$petid)->delete();
+        return response()->json([
+                'code' => 200,
+                'message' => 'mascotas borrada'
+            ]);
     }
 
     public function index()

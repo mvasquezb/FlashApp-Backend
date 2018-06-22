@@ -24,6 +24,8 @@ Route::post('login', 'UserController@login');
 Route::resource('animal-types', 'AnimalTypeController');
 Route::resource('pets', 'PetController');
 Route::get('users/{userid}/pets', 'PetController@getMascotas');
+Route::get('pets/delete/{idpet}', 'PetController@delete');
+Route::post('pets/update', 'PetController@actualizar');
 Route::resource('users', 'UserController');
 Route::resource('service-types', 'ServiceTypeController');
 Route::resource('scheduled-services', 'ScheduledServices');
