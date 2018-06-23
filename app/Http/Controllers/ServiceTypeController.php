@@ -16,6 +16,7 @@ class ServiceTypeController extends Controller
     {
         //
          $records = ServiceType::all();
+         
         return $records;
     }
 
