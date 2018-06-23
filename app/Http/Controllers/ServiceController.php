@@ -17,7 +17,7 @@ class ServiceController extends Controller
     public function index()
     {
         //
-        $services  = Service::findall();
+        $services  = Service::all();
         return $services;
     }
 
