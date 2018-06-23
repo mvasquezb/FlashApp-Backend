@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use App\Helpers\S3Helper;
 use App\User;
 
 class UserController extends Controller
@@ -150,6 +152,12 @@ class UserController extends Controller
                 $user->password = Hash::make($request->password);
                 //$user->rememberToken();
                 $user->save();
+                if ($request->image)
+                {
+                $ruta = $this->uploadFileTest($request->image,$user->id);
+                $user->pictureUrl = $ruta;
+                $user->save();
+                }
                 return response()->json([
                     'code' => 200,
                     'message' => 'user registrado',
@@ -215,5 +223,36 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    private function uploadFileTest($image,$owner) {
+        //return $image;
+        $data = base64_decode($image);
+        $my_file = 'user' . $owner . '.jpg';
+        //$my_file = 'files2.txt';
+        //return $my_file;
+        $filename = $this->createTestFile($my_file,$data);
+        $disk = Storage::disk('s3');
+        $added = $this->uploadTestFileToDisk($disk, $filename);
+        if ($added) {
+            // return $disk->temporaryUrl($filename, now()->addYears(1));
+            return S3Helper::getFileUrl($disk->url($filename));
+        }
+        return "File not added";
+    }
+
+    private function uploadTestFileToDisk($disk, $my_file) {
+        $handle = fopen($my_file, 'r') or die('Cannot open file:  ' . $my_file);
+        $added = $disk->put($my_file, $handle, 'public');
+        fclose($handle);
+        return $added;
+    }
+
+    private function createTestFile($my_file,$data) {
+        $handle = fopen($my_file, 'w') or die('Cannot open file:  ' . $my_file);
+        //$data = 'Test data to see if this works!';
+        fwrite($handle, $data);
+        fclose($handle);
+        return $my_file;
     }
 }
