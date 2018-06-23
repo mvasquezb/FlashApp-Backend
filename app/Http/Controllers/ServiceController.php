@@ -87,7 +87,9 @@ class ServiceController extends Controller
     }
 
     public function getServicebyCategory($idCategory){
-        // $idStatus = ServiceStatus::where('');
+        $serviceStatusid= ServiceStatus::where('name', 'active')->value('id');
+        $services = Service::where('type_id', $idCategory)->where('status_id', $serviceStatusid)->get();
+        return $services;
         // $services = ServiceType::where('')
 
 
