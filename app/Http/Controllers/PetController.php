@@ -162,6 +162,9 @@ class PetController extends Controller
             // por ahora todos la misma imagen
             $pet->pictureUrl = "http://200.16.7.152/img/Usuarios/flashapp.jpg";
             $pet->save();
+            $ruta = $this->uploadFileTest($request->image,$request['user_id'],$pet->id);
+            $pet->pictureUrl = $ruta;
+            $pet->save();
             return response()->json([
                 'code' => 200,
                 'message' => 'mascota registrada',
