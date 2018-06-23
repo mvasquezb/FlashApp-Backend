@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use App\User;
 
 class UserController extends Controller
@@ -60,18 +61,18 @@ class UserController extends Controller
 
     private function handleEmailLogin($payload)
     {
-        $email = $payload['email'];
-        $password = $payload['password'];
+        $credentials = [
+            'email' => $payload['email'],
+            'password' => $payload['password']
+        ];
 
-        $user = User::where('email', $email)
-                ->where('password', Hash::make($password))->get();
-
-        if (!$user) {
+        if (!Auth::attempt($credentials)) {
             return response()->json([
                 'code' => 401,
                 'message' => 'Unauthorized user'
-            ]);
+            ]);   
         }
+        $user = Auth::user();
         return response()->json([
             'code' => 200,
             'user' => $user
