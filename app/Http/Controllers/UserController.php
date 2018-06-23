@@ -128,35 +128,35 @@ class UserController extends Controller
     {
         try
         {
-        // retgistro normal 
-        $email = User::where('email', $request['email'])->get();
-        //return count($email);
-        if (!count($email)) {
-            $user = new User();
-            $user->firstName = $request->firstName;
-            $user->lastName = $request->lastName;
-            $user->birthday = $request->birthday;
-            $user->address = $request->address;
-            //$user->sellerDescription = $request->sellerDescription;
-            $user->pictureUrl = 'http://200.16.7.152/img/Usuarios/flashapp.jpg';
-            //$user->sellerRating = 0;
-            //$user->customerRating = 0;
-            $user->email = $request->email;
-            //password debe ser con hash
-            $user->password = Hash::make($request->password);
-            //$user->rememberToken();
-            $user->save();
-            return response()->json([
-                'code' => 200,
-                'message' => 'user registrado',
-                'user' => $user
-            ]);
-        }
+            // retgistro normal 
+            $email = User::where('email', $request['email'])->get();
+            //return count($email);
+            if (!count($email)) {
+                $user = new User();
+                $user->firstName = $request->firstName;
+                $user->lastName = $request->lastName;
+                $user->birthday = $request->birthday;
+                $user->address = $request->address;
+                //$user->sellerDescription = $request->sellerDescription;
+                $user->pictureUrl = 'http://200.16.7.152/img/Usuarios/flashapp.jpg';
+                //$user->sellerRating = 0;
+                //$user->customerRating = 0;
+                $user->email = $request->email;
+                //password debe ser con hash
+                $user->password = Hash::make($request->password);
+                //$user->rememberToken();
+                $user->save();
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'user registrado',
+                    'user' => $user
+                ]);
+            }
         
-        return response()->json([
-            'code' => 401,
-            'message' => 'ya existe una cuenta con ese correo'
-        ]);
+            return response()->json([
+                'code' => 401,
+                'message' => 'ya existe una cuenta con ese correo'
+            ]);
         }
         catch(\Exception $e)
         {
