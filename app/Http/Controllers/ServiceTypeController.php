@@ -15,6 +15,9 @@ class ServiceTypeController extends Controller
     public function index()
     {
         //
+         $records = ServiceType::all();
+         
+        return $records;
     }
 
     /**
