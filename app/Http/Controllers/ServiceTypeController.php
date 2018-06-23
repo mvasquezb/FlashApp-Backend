@@ -15,7 +15,7 @@ class ServiceTypeController extends Controller
     public function index()
     {
         //
-         $records = ServiceType::get();
+         $records = ServiceType::all();
         return $records;
     }
 
