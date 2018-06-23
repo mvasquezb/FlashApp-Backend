@@ -11,11 +11,6 @@ class ScheduledService extends Model
         return $this->hasOne('App\User');
     }
 
-    public function serviceType()
-    {
-        return $this->hasOne('App\ServiceType');
-    }
-
     public function schedule()
     {
         // TODO: Check if it has only one schedule or multiple

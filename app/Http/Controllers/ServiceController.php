@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Service;
+use App\ServiceType;
+use App\ServiceStatus;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
@@ -47,6 +49,7 @@ class ServiceController extends Controller
     public function show(Service $service)
     {
         //
+
     }
 
     /**
@@ -81,5 +84,12 @@ class ServiceController extends Controller
     public function destroy(Service $service)
     {
         //
+    }
+
+    public function getServicebyCategory($idCategory){
+        // $idStatus = ServiceStatus::where('');
+        // $services = ServiceType::where('')
+
+
     }
 }
