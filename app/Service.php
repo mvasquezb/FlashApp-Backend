@@ -20,6 +20,11 @@ class Service extends Model
     {
         return $this->hasManyThrough('App\User', 'App\ServiceCustomers');
     }
+    
+    public function serviceType()
+    {
+        return $this->hasOne('App\ServiceType');
+    }
 
     public function serviceCustomers()
     {

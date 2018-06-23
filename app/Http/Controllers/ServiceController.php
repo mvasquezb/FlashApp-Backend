@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Service;
+use App\ServiceType;
+use App\ServiceStatus;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
@@ -15,6 +17,8 @@ class ServiceController extends Controller
     public function index()
     {
         //
+        $services  = Service::all();
+        return $services;
     }
 
     /**
@@ -47,6 +51,7 @@ class ServiceController extends Controller
     public function show(Service $service)
     {
         //
+
     }
 
     /**
@@ -81,5 +86,15 @@ class ServiceController extends Controller
     public function destroy(Service $service)
     {
         //
+    }
+
+    public function getServicebyCategory($idCategory){
+        $serviceStatusid= ServiceStatus::where('name', 'activo')->value('id');
+        return $serviceStatusid;
+        $services = Service::where('type_id', $idCategory)->where('status_id', $serviceStatusid)->get();
+        return $services;
+        // $services = ServiceType::where('')
+
+
     }
 }
