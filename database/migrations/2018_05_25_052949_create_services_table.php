@@ -17,6 +17,9 @@ class CreateServicesTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->integer('scheduled_service_id')->unsigned();
+            $table->integer('type_id')->unsigned();
+            $table->foreign('type_id')->references('id')->on('service_types');
+            
             $table->foreign('scheduled_service_id')->references('id')->on('scheduled_services')->onDelete('cascade');
             $table->dateTime('executionDate');
             $table->integer('status_id')->unsigned();
