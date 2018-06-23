@@ -81,8 +81,11 @@ class UserController extends Controller
 
     private function handleGoogleLogin($payload)
     {
-        $user = User::where('googleToken', $payload['token'])->get();
-        if (!$user) {
+        $credentials = [
+            'email' => $payload['email'],
+            'googleToken' => $payload['token']
+        ];
+        if (!Auth::attempt($credentials)) {
             return response()->json([
                 'code' => 401,
                 'message' => 'Unauthorized user'
