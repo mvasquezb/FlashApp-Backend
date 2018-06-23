@@ -62,16 +62,18 @@ class UserController extends Controller
     {
         $email = $payload['email'];
         $password = $payload['password'];
+        return $payload; 
+        $credentials = ['email' => $email, 'password' => $password];
+        // $user = User::where('email', $email)
+        //         ->where('password', Hash::make($password))->first();
 
-        $user = User::where('email', $email)
-                ->where('password', Hash::make($password))->get();
-
-        if (!$user) {
+        if (!Auth::attempt($credentials)) {
             return response()->json([
                 'code' => 401,
                 'message' => 'Unauthorized user'
-            ]);
+            ]);   
         }
+        $user = Auth::user();
         return response()->json([
             'code' => 200,
             'user' => $user
