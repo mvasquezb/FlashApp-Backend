@@ -30,10 +30,19 @@ class PetController extends Controller
     public function actualizar(Request $request)
     {
         $pet = Pet::where('id',$request->id)->first();
+        $pet->owner;
+        //return $pet;
+        $ruta = $this->uploadFileTest($request->image,$pet->owner->id,$request->id);
+        //return $ruta;        
         $pet->name = $request['name'];
         $pet->gender = $request['gender'];
         $pet->breed = $request['breed'];
         $animal_type_id = AnimalType::where('description',$request->tipo)->first();
+
+        //$file = base64_decode($request->image);
+        //$filename = $file->getClientOriginalName();
+        //$bitmap = BitmapFactory.decodeByteArray(decodedString,0,decodedString.length);
+        //return $bitmap;
         
         if ($animal_type_id)
         {
@@ -50,7 +59,9 @@ class PetController extends Controller
         }
 
         // por ahora todos la misma imagen
-        // $pet->pictureUrl = "http://200.16.7.152/img/Usuarios/flashapp.jpg";
+        //$ruta = $this->uploadFileTest($request->image,$pet->owner->id,$request->id);
+        //return $ruta;
+        $pet->pictureUrl = $ruta;
         $pet->save();
         return response()->json([
                 'code' => 200,
@@ -73,9 +84,13 @@ class PetController extends Controller
         return $this->uploadFileTest();
     }
 
-    private function uploadFileTest() {
-        $my_file = 'files2.txt';
-        $filename = $this->createTestFile($my_file);
+    private function uploadFileTest($image,$owner,$pet) {
+        //return $image;
+        $data = base64_decode($image);
+        $my_file = 'pet' . $owner . $pet . '.jpg';
+        //$my_file = 'files2.txt';
+        //return $my_file;
+        $filename = $this->createTestFile($my_file,$data);
         $disk = Storage::disk('s3');
         $added = $this->uploadTestFileToDisk($disk, $filename);
         if ($added) {
@@ -92,9 +107,9 @@ class PetController extends Controller
         return $added;
     }
 
-    private function createTestFile($my_file) {
+    private function createTestFile($my_file,$data) {
         $handle = fopen($my_file, 'w') or die('Cannot open file:  ' . $my_file);
-        $data = 'Test data to see if this works!';
+        //$data = 'Test data to see if this works!';
         fwrite($handle, $data);
         fclose($handle);
         return $my_file;
@@ -207,4 +222,5 @@ class PetController extends Controller
     {
         //
     }
+
 }
