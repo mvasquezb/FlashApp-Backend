@@ -148,18 +148,20 @@ class UserController extends Controller
             $user->save();
             return response()->json([
                 'code' => 200,
-                'message' => 'user registrado'
+                'message' => 'user registrado',
+                'user' => $user
             ]);
         }
         
         return response()->json([
             'code' => 401,
-            'user' => 'ya existe una cuenta con ese correo'
+            'message' => 'ya existe una cuenta con ese correo'
         ]);
         }
         catch(\Exception $e)
         {
-            return response()->json(['code' => 500,
+            return response()->json([
+                'code' => 500,
                 'message'=> 'Hubo un error',
                 'data' => $e->getMessage()
             ]);
