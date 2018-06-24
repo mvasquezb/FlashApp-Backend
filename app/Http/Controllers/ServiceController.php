@@ -92,10 +92,14 @@ class ServiceController extends Controller
     public function getServicebyCategory($idCategory){
         $serviceStatusid= ServiceStatus::where('name', 'activo')->value('id');
         $services = Service::where('type_id', $idCategory)->where('status_id', $serviceStatusid)->get();
+        $array = array();
         foreach ($services as $s) {
-            echo $s->service_type->name;
+            $array['id'] = $s->id;
+            $array['tipoServicio']   = ServiceType::where('id', $s->type_id)->value('name');
+            $array['fechaInicio'] = $s->executionDate;
+            $array['descripcion'] = $s->statusComment;
         }
-        return $services;
+        return $array;
         // $services = ServiceType::where('')
 
 
