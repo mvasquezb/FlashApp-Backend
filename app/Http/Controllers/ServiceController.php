@@ -53,7 +53,7 @@ class ServiceController extends Controller
     {
         //
 
-        return $service
+        return $service;
 
     }
 
