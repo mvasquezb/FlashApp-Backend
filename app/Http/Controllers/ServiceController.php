@@ -95,9 +95,11 @@ class ServiceController extends Controller
         $array = array();
         foreach ($services as $s) {
             $array['id'] = $s->id;
-            $array['tipoServicio']   = ServiceType::where('id', $s->type_id)->value('name');
-            $array['fechaInicio'] = $s->executionDate;
-            $array['descripcion'] = $s->statusComment;
+            $array['status']   = ServiceType::where('id', $s->type_id)->get();
+            $array['serviceSchedule']   = ScheduledService::where('id', $s->scheduled_service_id)->get();
+            $array['date'] = $s->executionDate;
+            $array['comments'] = $s->statusComment;
+            $array['status'] = 'activo';
         }
         return $array;
         // $services = ServiceType::where('')
