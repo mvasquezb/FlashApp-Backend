@@ -88,8 +88,8 @@ class UserController extends Controller
             'googleToken' => $payload['token']
         ];
         $user = User::where('email', $credentials['email'])
-            ->where('googleToken', $credentials['googleToken'])
-            ->first();
+                    ->where('googleToken', $credentials['googleToken'])
+                    ->first();
         if (!$user) {
             return response()->json([
                 'code' => 401,
