@@ -87,7 +87,10 @@ class UserController extends Controller
             'email' => $payload['email'],
             'googleToken' => $payload['token']
         ];
-        if (!Auth::attempt($credentials)) {
+        $user = User::where('email', $credentials['email'])
+            ->where('googleToken', $credentials['googleToken'])
+            ->first();
+        if (!$user) {
             return response()->json([
                 'code' => 401,
                 'message' => 'Unauthorized user'
