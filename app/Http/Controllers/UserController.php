@@ -150,6 +150,8 @@ class UserController extends Controller
                 $user->email = $request->email;
                 //password debe ser con hash
                 $user->password = Hash::make($request->password);
+                $user->googleToken = $request->googleToken;
+                $user->fbToken = $request->fbToken;
                 //$user->rememberToken();
                 $user->save();
                 if ($request->image)
